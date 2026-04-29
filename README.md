@@ -113,8 +113,8 @@ customer-churn-project/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/nishant1529/customer-churn-project.git
-cd customer-churn-project
+git clone https://github.com/nishant1529/customer_churn_dashboard.git
+cd customer-churn-dashboard
 ```
 
 ### 2. Create virtual environment
