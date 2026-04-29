@@ -34,7 +34,7 @@ st.sidebar.markdown(
 )
 st.sidebar.markdown("## 👤 Nishant Dubey")
 st.sidebar.markdown("""
-**ML Engineer | Data Scientist**  
+**Tech Enthusiast**  
 📧 nishant.dubey@gmail.com  
 🔗 [LinkedIn](https://linkedin.com/in/nishantdubey)  
 """)
