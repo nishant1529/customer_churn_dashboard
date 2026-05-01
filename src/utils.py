@@ -1,28 +1,41 @@
-import pandas as pd
+import streamlit as st
 
-def preprocess(df):
-    df = df.copy()
+# ---------------- THEME ----------------
+def apply_theme():
+    if "theme" not in st.session_state:
+        st.session_state.theme = "dark"
 
-    # Drop safely
-    df.drop("customerID", axis=1, inplace=True, errors="ignore")
+    toggle = st.sidebar.toggle("🌗 Dark Mode", value=True)
 
-    # Numeric conversion
-    if "TotalCharges" in df.columns:
-        df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
-        df["TotalCharges"].fillna(df["TotalCharges"].median(), inplace=True)
+    st.session_state.theme = "dark" if toggle else "light"
 
-    # Target handling
-    if "Churn" in df.columns:
-        df["Churn"] = df["Churn"].replace({"Yes":1, "No":0})
+    if st.session_state.theme == "dark":
+        bg = "#0E1117"
+        card = "#161B22"
+        text = "white"
+    else:
+        bg = "#FFFFFF"
+        card = "#F5F5F5"
+        text = "#000000"
 
-    # Binary encoding
-    binary_cols = ["gender", "Partner", "Dependents", "PhoneService", "PaperlessBilling"]
+    st.markdown(f"""
+    <style>
+    body {{
+        background-color: {bg};
+        color: {text};
+    }}
+    .metric-card {{
+        background-color: {card};
+        padding: 15px;
+        border-radius: 10px;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
 
-    for col in binary_cols:
-        if col in df.columns:
-            df[col] = df[col].replace({"Yes":1, "No":0, "Male":1, "Female":0})
 
-    # One-hot encoding
-    df = pd.get_dummies(df, drop_first=True)
+# ---------------- TOOLTIP ----------------
+def tooltip(label, tip):
+    return f"{label}  \n\nℹ️ {tip}"
 
-    return df
+def metric_with_tooltip(label, value, help_text):
+    return st.metric(label, value, help=help_text)
