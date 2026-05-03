@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        main {
+            padding: 40px;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #555;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .highlight {
+            background: #f0f4ff;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .key-finding {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .subsection {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .metric-item {
+            display: inline-block;
+            width: 45%;
+            margin: 10px 2.5%;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .personal-background {
+            background: #f0f9ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #0ea5e9;
+            italic: true;
+        }
+        
+        .personal-background p {
+            color: #0c4a6e;
+            font-style: italic;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.95em;
+        }
+        
+        .recommendation-box {
+            background: #ecfdf5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #10b981;
+        }
+        
+        .recommendation-box h4 {
+            color: #047857;
+            margin-bottom: 10px;
+        }
+        
+        .recommendation-box ul {
+            margin-left: 20px;
+        }
+        
+        .recommendation-box li {
+            color: #065f46;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Customer Churn Prediction</h1>
+            <p style="text-align: right;">Analysis & Business Recommendations using Machine Learning </p>
+        </header>
+        
+        <main>
+            <!-- Executive Summary -->
+            <section>
+                <h2>Executive Summary</h2>
+                
+                <p>Customer churn directly impacts revenue and long-term profitability. This project develops a machine learning-based solution to predict customer churn and enable businesses to work on proactive retention strategies.</p>
+                
+                <p>Using a dataset of approximately 12,000 customers, multiple classification models were evaluated, including Logistic Regression, Decision Tree, and Random Forest. A Scikit-learn pipeline was implemented to ensure consistent preprocessing and avoid data leakage. The Random Forest model, optimized using GridSearchCV, demonstrated the best performance.</p>
+                
+                <p>To align with business priorities, the classification threshold was adjusted from 0.5 to 0.3, improving recall and enabling better identification of at-risk customers. Key drivers of churn include contract type, tenure, and payment behaviour.</p>
+                
+                <p>The results highlight actionable insights that can help businesses reduce churn through targeted interventions such as promoting long-term contracts and improving onboarding experiences.</p>
+            </section>
+            
+            <!-- Introduction -->
+            <section>
+                <h2>Introduction</h2>
+                
+                <p>Customer retention is a critical factor for sustainable business growth, particularly in industries with recurring revenue models such as telecommunications and subscription services. Acquiring new customers is often significantly more expensive than retaining existing ones, which makes churn prediction a high-impact business problem.</p>
+                
+                <p>This analysis aims to predict customer churn using a data-driven approach. The problem is well-suited for machine learning because:</p>
+                
+                <ul>
+                    <li>Large volumes of customer data are available</li>
+                    <li>Patterns in behaviour can indicate future churn</li>
+                    <li>Predictive models enable proactive business strategies</li>
+                </ul>
+                
+                <p>By leveraging machine learning, organizations can shift from reactive to predictive decision-making, ultimately improving customer retention and profitability.</p>
+                
+                <div class="personal-background">
+                    <p><strong>Personal Background:</strong> I have worked in the e-commerce industry for the last 16-17 years, collaborating with many Fortune 500 retailers and e-commerce companies including Cardinal Health, Home Depot, Hasbro Toyshop, and M&S. I developed numerous utilities to collect data and dashboards that enable businesses to analyze various customer-related information. Customer retention has always been an interesting focus area, as we developed many features to provide the best experience to customers and retain them. I believe this is the most suitable use case for me to work on this problem and leverage it for future customers.</p>
+                </div>
+            </section>
+            
+            <!-- Methods -->
+            <section>
+                <h2>Methods</h2>
+                
+                <!-- Data Sources -->
+                <h3>Data Sources</h3>
+                <p>The dataset is constructed by merging two similar datasets with consistent column structures and value formats:</p>
+                
+                <div class="highlight">
+                    <ul>
+                        <li><strong>Total Records:</strong> 12,023</li>
+                        <li><strong>Total Features:</strong> 21</li>
+                        <li><strong>Feature Types:</strong>
+                            <ul style="margin-top: 8px;">
+                                <li>17 categorical variables (binary, nominal, ordinal)</li>
+                                <li>3 numerical variables</li>
+                                <li>1 identifier column (customerID)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Demographic information:</strong> e.g., gender, dependents</li>
+                        <li><strong>Service details:</strong> e.g., internet service, contract type</li>
+                        <li><strong>Billing information:</strong> e.g., monthly charges, total charges</li>
+                    </ul>
+                </div>
+                
+                <!-- Target & Metric -->
+                <h3>Target & Metric</h3>
+                <p>The target variable is <strong>Churn</strong>, a binary indicator (1 = churn, 0 = retained), making this a classification problem. It will indicate whether a customer is churning or not.</p>
+                
+                <!-- Data Cleaning and Preprocessing -->
+                <h3>Data Cleaning and Preprocessing</h3>
+                <p>Several preprocessing steps were applied:</p>
+                <ul>
+                    <li>Removed customerID (no predictive value, adds noise)</li>
+                    <li>Converted TotalCharges and MonthlyCharges to numeric format</li>
+                    <li><strong>Encoded categorical variables:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Binary variables → Label Encoding (0/1)</li>
+                            <li>Multi-class variables → One-Hot Encoding</li>
+                        </ul>
+                    </li>
+                    <li><strong>Applied feature scaling to numerical variables:</strong>
+                        <ul style="margin-top: 8px;">
+                            <li>Tenure</li>
+                            <li>MonthlyCharges</li>
+                            <li>TotalCharges</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>To avoid data leakage, the dataset was split into training and testing sets before model training, and preprocessing was applied through a unified pipeline.</p>
+                
+                <!-- Modelling Approach -->
+                <h3>Modelling Approach</h3>
+                <p>A Scikit-learn Pipeline was implemented combining:</p>
+                <ul>
+                    <li>ColumnTransformer (for preprocessing)</li>
+                    <li>Machine learning model (classifier)</li>
+                </ul>
+                <img src="/assets/pipeline.png" alt="ML Pipeline Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                
+                <p>The following models were evaluated:</p>
+                <ul>
+                    <li>Logistic Regression</li>
+                    <li>Decision Tree</li>
+                    <li>Random Forest</li>
+                    <li>Gradient Boosting</li>
+                </ul>
+                <img src="/assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <p>Hyperparameter tuning was performed using GridSearchCV, optimizing parameters such as:</p>
+                <ul>
+                    <li>Number of estimators</li>
+                    <li>Maximum tree depth</li>
+                    <li>Minimum samples split</li>
+                </ul>
+                <img src="/assets/hyperparameter_tuning.png" alt="ML Pipeline Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <!-- Threshold Optimization -->
+                <h3>Threshold Optimization</h3>
+                <p>Instead of using the default classification threshold (0.5), a threshold of 0.3 was selected:</p>
+                <div class="key-finding">
+                    <ul>
+                        <li>False negatives (missing churners) are more costly than false positives</li>
+                        <li>Lower threshold improves recall, capturing more at-risk customers</li>
+                    </ul>
+                </div>
+                
+                <!-- Evaluation Metrics -->
+                <h3>Evaluation Metrics</h3>
+                <p>The following metrics were used:</p>
+                <ul>
+                    <li>Accuracy</li>
+                    <li>Precision</li>
+                    <li>Recall</li>
+                    <li>F1 Score</li>
+                    <li>ROC-AUC</li>
+                </ul>
+                <p>Recall was prioritized due to its importance in minimizing missed churn cases.</p>
+            </section>
+            
+            <!-- Results -->
+            <section>
+                <h2>Results</h2>
+                
+                <!-- Descriptive Analysis -->
+                <h3>Descriptive Analysis</h3>
+                <p>Exploratory data analysis revealed:</p>
+                <ul>
+                    <li>Approximately 35–37% of customers churned, indicating class imbalance</li>
+                    <li>Customers with short tenure are more likely to churn</li>
+                    <li>Month-to-month contracts show significantly higher churn rates</li>
+                    <li>Customers using electronic check payment methods have higher churn</li>
+                </ul>
+                
+                <!-- Model Performance -->
+                <h3>Model Performance</h3>
+                <p>The Random Forest model achieved strong performance, with improvements observed after hyperparameter tuning.</p>
+                <img src="/assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <div class="highlight">
+                    <h4>Key Observations:</h4>
+                    <ul>
+                        <li>ROC-AUC indicates strong classification capability
+                            <img src="/assets/roc_curve.png" alt="ML ROC Curve Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                        </li>
+                        <li>Confusion matrix shows improved detection of churners
+                            <img src="/assets/confusion_matrix.png" alt="ML Confusion Matrix Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                        </li>
+                        <li>Lower threshold increases recall at the cost of slight precision reduction</li>
+                    </ul>
+                </div>
+                
+                <!-- Feature Importance -->
+                <h3>Feature Importance</h3>
+                <p>The most influential features include:</p>
+                <ul>
+                    <li>Contract type</li>
+                    <li>Tenure</li>
+                    <li>Monthly charges</li>
+                </ul>
+                <p>These variables play a critical role in determining churn behaviour.</p>
+                <img src="/assets/feature_importance.png" alt="ML Feature Importance Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <!-- Interpretation of Results -->
+                <h3>Interpretation of Results</h3>
+                <p>The results suggest that churn is strongly influenced by:</p>
+                <ul>
+                    <li><strong>Customer commitment level</strong> (contract type)</li>
+                    <li><strong>Customer lifecycle stage</strong> (tenure)</li>
+                    <li><strong>Pricing sensitivity</strong> (monthly charges)</li>
+                </ul>
+                <p>This indicates that both behavioural and financial factors contribute significantly to churn.</p>
+                
+                <!-- Visual Analysis -->
+                <h3>Visual Analysis & Dashboard Integration</h3>
+                
+                <div class="key-finding">
+                    <h4>Churn Distribution (Class Imbalance)</h4>
+                    <p>This pie chart shows approximately 37% of customers have churned, indicating a moderate churn problem. The dataset is imbalanced, with more retained customers than churned ones. Retention strategies should focus on the high-risk minority segment, as even small improvements can significantly impact revenue.</p>
+                    <img src="/assets/churn_distribution_pie.png" alt="ML Churn Distribution Pie Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                </div>
+                
+                <div class="key-finding">
+                    <h4>Contract vs Churn Analysis</h4>
+                    <p>Month-to-month contracts have the highest churn rate. Long-term contracts (1-year, 2-year) show better retention. From a business perspective, contract type is a strong churn driver. Incentivizing long-term contracts can significantly improve retention.</p>
+                    <img src="/assets/contract_vs_churn.png" alt="ML Contract vs Tenure Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                </div>
+                
+                <div class="key-finding">
+                    <h4>Tenure Distribution by Churn</h4>
+                    <p>Customers with low tenure (early lifecycle) churn more frequently. Long-tenure customers are more stable and loyal. The first few months are critical for retention. Onboarding experience and early engagement should be optimized.</p>
+                    <img src="/assets/tenure_distribution.png" alt="ML Tenure Distribution Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                </div>
+                
+                <div class="key-finding">
+                    <h4>Payment Method Analysis</h4>
+                    <p>Customers using Electronic Check show significantly higher churn rates. Automatic payment methods (credit card/bank transfer) have lower churn. Customers not using auto-pay are high-risk segments. Encouraging auto-payment adoption can reduce churn.</p>
+                    <img src="/assets/churn_distribution_payment_method.png" alt="ML Payment Method Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                </div>
+                
+                <div class="key-finding">
+                    <h4>ROC Curve</h4>
+                    <p>The curve is well above the diagonal (random line), which means the model has strong predictive power. It shows high recall is achievable with acceptable false positives.</p>
+                    <img src="/assets/roc_curve.png" alt="ML ROC Curve Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                </div>
+                
+                <div class="key-finding">
+                    <h4>Confusion Matrix</h4>
+                    <ul>
+                        <li><strong>True Positives (top-right):</strong> Correctly identified churners</li>
+                        <li><strong>False Negatives (top-left):</strong> Missed churners (critical)</li>
+                        <li><strong>False Positives (bottom-right):</strong> Safe customers flagged as churn</li>
+                        <li><strong>True Negatives (bottom-left):</strong> Correctly identified safe customers</li>
+                    </ul>
+                    <img src="/assets/confusion_matrix.png" alt="ML Confusion Matrix Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                </div>
+            </section>
+            
+            <!-- Conclusion -->
+            <section>
+                <h2>Conclusion</h2>
+                
+                <p>This project demonstrates that machine learning can effectively predict customer churn and provide actionable business insights.</p>
+                
+                <div class="highlight">
+                    <h4>Key Findings:</h4>
+                    <ul>
+                        <li>Random Forest outperforms simpler models (considering both recall and accuracy)</li>
+                        <li>Early-stage customers are at highest risk</li>
+                        <li>Contract type is the strongest predictor of churn</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Recommendations -->
+            <section>
+                <h2>Recommendations</h2>
+                
+                <p>Based on the analysis, the following actions are recommended to reduce customer churn:</p>
+                
+                <div class="recommendation-box">
+                    <h4>1. Promote Long-Term Contracts</h4>
+                    <p>Incentivize customers to switch from month-to-month to long-term contracts (1-year or 2-year) through discounts, loyalty rewards, or bundled services. This single measure can significantly reduce churn rates.</p>
+                </div>
+                
+                <div class="recommendation-box">
+                    <h4>2. Encourage Automatic Payment Methods</h4>
+                    <p>Promote the adoption of automatic payment methods (credit card or bank transfer) over electronic check payments. Implement easy setup processes and incentivize auto-pay enrollment.</p>
+                </div>
+                
+                <div class="recommendation-box">
+                    <h4>3. Improve Onboarding for New Customers</h4>
+                    <p>Focus on enhancing the first-time customer experience, as early-stage customers show higher churn rates. Implement proactive engagement and support during the critical onboarding period.</p>
+                </div>
+                
+                <div class="recommendation-box">
+                    <h4>4. Deploy Real-Time Churn Prediction Systems</h4>
+                    <p>Integrate the developed model into operational systems to identify at-risk customers in real-time, enabling timely intervention and personalized retention offers.</p>
+                </div>
+                
+                <div class="recommendation-box">
+                    <h4>5. Conduct A/B Testing for Retention Strategies</h4>
+                    <p>Test various retention strategies (e.g., promotional offers, service improvements, engagement campaigns) on identified high-risk segments to identify the most effective interventions.</p>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 Customer Churn Prediction Analysis | Machine Learning & Data Science</p>
+        </footer>
+    </div>
+</body>
+</html>

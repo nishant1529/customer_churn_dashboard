@@ -6,28 +6,34 @@ def apply_theme():
         st.session_state.theme = "dark"
 
     toggle = st.sidebar.toggle("🌗 Dark Mode", value=True)
-
     st.session_state.theme = "dark" if toggle else "light"
 
     if st.session_state.theme == "dark":
         bg = "#0E1117"
+        text = "#FFFFFF"
         card = "#161B22"
-        text = "white"
     else:
         bg = "#FFFFFF"
-        card = "#F5F5F5"
         text = "#000000"
+        card = "#F5F5F5"
 
     st.markdown(f"""
     <style>
-    body {{
+    .stApp {{
         background-color: {bg};
         color: {text};
     }}
-    .metric-card {{
+
+    /* Cards / containers */
+    div[data-testid="stMetric"] {{
         background-color: {card};
-        padding: 15px;
+        padding: 10px;
         border-radius: 10px;
+    }}
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {{
+        background-color: {card};
     }}
     </style>
     """, unsafe_allow_html=True)

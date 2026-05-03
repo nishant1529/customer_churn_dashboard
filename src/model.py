@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -64,7 +64,7 @@ def train():
         X, y, test_size=0.2, stratify=y, random_state=42
     )
 
-    # Train
+    # Train, number of estimators, depth and samples split
     param_grid = {
         "model__n_estimators": [100, 200],
         "model__max_depth": [10, None],
@@ -81,11 +81,9 @@ def train():
 
     grid.fit(X_train, y_train)
 
-    # 🔥 Replace pipeline with best model
+    # Replace pipeline with best model
     pipeline = grid.best_estimator_
-    #metrics["best_params"] = grid.best_params_
 
-    print("Best Parameters:", grid.best_params_)
 
     # Save pipeline
     with open(MODEL_DIR / "pipeline.pkl", "wb") as f:
@@ -130,7 +128,8 @@ def train():
     models = {
         "Logistic Regression": LogisticRegression(max_iter=1000, class_weight="balanced"),
         "Decision Tree": DecisionTreeClassifier(class_weight="balanced"),
-        "Random Forest": RandomForestClassifier(class_weight="balanced")
+        "Random Forest": RandomForestClassifier(class_weight="balanced"),
+        "Gradient Boosting": GradientBoostingClassifier()
     }
 
     for name, model in models.items():
@@ -150,7 +149,8 @@ def train():
             "Accuracy": accuracy_score(y_test, y_pred),
             "Precision": precision_score(y_test, y_pred),
             "Recall": recall_score(y_test, y_pred),
-            "F1 Score": f1_score(y_test, y_pred)
+            "F1 Score": f1_score(y_test, y_pred),
+            "ROC-AUC": roc_auc_score(y_test, y_prob)
         })
 
     # Save results
