@@ -282,7 +282,7 @@
                     <li>ColumnTransformer (for preprocessing)</li>
                     <li>Machine learning model (classifier)</li>
                 </ul>
-                <img src="/assets/pipeline.png" alt="ML Pipeline Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <img src="assets/pipeline.png" alt="ML Pipeline Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 
                 <p>The following models were evaluated:</p>
                 <ul>
@@ -291,14 +291,14 @@
                     <li>Random Forest</li>
                     <li>Gradient Boosting</li>
                 </ul>
-                <img src="/assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <img src="assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 <p>Hyperparameter tuning was performed using GridSearchCV, optimizing parameters such as:</p>
                 <ul>
                     <li>Number of estimators</li>
                     <li>Maximum tree depth</li>
                     <li>Minimum samples split</li>
                 </ul>
-                <img src="/assets/hyperparameter_tuning.png" alt="ML Pipeline Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <img src="assets/hyperparameter_tuning.png" alt="ML Pipeline Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 <!-- Threshold Optimization -->
                 <h3>Threshold Optimization</h3>
                 <p>Instead of using the default classification threshold (0.5), a threshold of 0.3 was selected:</p>
@@ -339,15 +339,15 @@
                 <!-- Model Performance -->
                 <h3>Model Performance</h3>
                 <p>The Random Forest model achieved strong performance, with improvements observed after hyperparameter tuning.</p>
-                <img src="/assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <img src="assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 <div class="highlight">
                     <h4>Key Observations:</h4>
                     <ul>
                         <li>ROC-AUC indicates strong classification capability
-                            <img src="/assets/roc_curve.png" alt="ML ROC Curve Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                            <img src="assets/roc_curve.png" alt="ML ROC Curve Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                         </li>
                         <li>Confusion matrix shows improved detection of churners
-                            <img src="/assets/confusion_matrix.png" alt="ML Confusion Matrix Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                            <img src="assets/confusion_matrix.png" alt="ML Confusion Matrix Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                         </li>
                         <li>Lower threshold increases recall at the cost of slight precision reduction</li>
                     </ul>
@@ -362,7 +362,7 @@
                     <li>Monthly charges</li>
                 </ul>
                 <p>These variables play a critical role in determining churn behaviour.</p>
-                <img src="/assets/feature_importance.png" alt="ML Feature Importance Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                <img src="assets/feature_importance.png" alt="ML Feature Importance Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 <!-- Interpretation of Results -->
                 <h3>Interpretation of Results</h3>
                 <p>The results suggest that churn is strongly influenced by:</p>
@@ -379,31 +379,31 @@
                 <div class="key-finding">
                     <h4>Churn Distribution (Class Imbalance)</h4>
                     <p>This pie chart shows approximately 37% of customers have churned, indicating a moderate churn problem. The dataset is imbalanced, with more retained customers than churned ones. Retention strategies should focus on the high-risk minority segment, as even small improvements can significantly impact revenue.</p>
-                    <img src="/assets/churn_distribution_pie.png" alt="ML Churn Distribution Pie Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                    <img src="assets/churn_distribution_pie.png" alt="ML Churn Distribution Pie Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 </div>
                 
                 <div class="key-finding">
                     <h4>Contract vs Churn Analysis</h4>
                     <p>Month-to-month contracts have the highest churn rate. Long-term contracts (1-year, 2-year) show better retention. From a business perspective, contract type is a strong churn driver. Incentivizing long-term contracts can significantly improve retention.</p>
-                    <img src="/assets/contract_vs_churn.png" alt="ML Contract vs Tenure Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                    <img src="assets/contract_vs_churn.png" alt="ML Contract vs Tenure Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 </div>
                 
                 <div class="key-finding">
                     <h4>Tenure Distribution by Churn</h4>
                     <p>Customers with low tenure (early lifecycle) churn more frequently. Long-tenure customers are more stable and loyal. The first few months are critical for retention. Onboarding experience and early engagement should be optimized.</p>
-                    <img src="/assets/tenure_distribution.png" alt="ML Tenure Distribution Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                    <img src="assets/tenure_distribution.png" alt="ML Tenure Distribution Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 </div>
                 
                 <div class="key-finding">
                     <h4>Payment Method Analysis</h4>
                     <p>Customers using Electronic Check show significantly higher churn rates. Automatic payment methods (credit card/bank transfer) have lower churn. Customers not using auto-pay are high-risk segments. Encouraging auto-payment adoption can reduce churn.</p>
-                    <img src="/assets/churn_distribution_payment_method.png" alt="ML Payment Method Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                    <img src="assets/churn_distribution_payment_method.png" alt="ML Payment Method Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 </div>
                 
                 <div class="key-finding">
                     <h4>ROC Curve</h4>
                     <p>The curve is well above the diagonal (random line), which means the model has strong predictive power. It shows high recall is achievable with acceptable false positives.</p>
-                    <img src="/assets/roc_curve.png" alt="ML ROC Curve Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                    <img src="assets/roc_curve.png" alt="ML ROC Curve Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 </div>
                 
                 <div class="key-finding">
@@ -414,7 +414,7 @@
                         <li><strong>False Positives (bottom-right):</strong> Safe customers flagged as churn</li>
                         <li><strong>True Negatives (bottom-left):</strong> Correctly identified safe customers</li>
                     </ul>
-                    <img src="/assets/confusion_matrix.png" alt="ML Confusion Matrix Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
+                    <img src="assets/confusion_matrix.png" alt="ML Confusion Matrix Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 </div>
             </section>
             
