@@ -618,7 +618,9 @@ with tab4:
         "/assets/cumulative_lift_chart.png": BASE_DIR / "assets" / "cumulative_lift_chart.png",
         "/assets/lift_chart_analysis_by_decile.png": BASE_DIR / "assets" / "lift_chart_analysis_by_decile.png",
         "/assets/newplot.png": BASE_DIR / "assets" / "newplot.png",
-        "/assets/all_confusion_matrices.png": BASE_DIR / "assets" / "all_confusion_matrices.png"
+        "/assets/all_confusion_matrices.png": BASE_DIR / "assets" / "all_confusion_matrices.png",
+        "/assets/imperial_logo.svg": BASE_DIR / "assets" / "imperial_logo.svg",
+        "/assets/customer_churn_logo.png": BASE_DIR / "assets" / "customer_churn_logo.png",
     }
     st.subheader("📄 Full Report")
     
