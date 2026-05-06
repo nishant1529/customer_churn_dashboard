@@ -1,17 +1,16 @@
-import streamlit as st
-import pandas as pd
+import streamlit as st  # type: ignore
+import pandas as pd  # type: ignore
 import pickle
 from pathlib import Path
 import base64
 import json
-from sklearn.metrics import ConfusionMatrixDisplay, roc_curve
-import plotly.express as px
-import plotly.graph_objects as go
-import plotly.figure_factory as ff
-import seaborn as sns
-import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay, roc_curve  # type: ignore
+import plotly.express as px  # type: ignore
+import plotly.graph_objects as go  # type: ignore
+import seaborn as sns  # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
 from utils import apply_theme, tooltip
-import streamlit.components.v1 as components
+import streamlit.components.v1 as components  # type: ignore
 
 # ---------------- CONFIG ----------------
 st.set_page_config(
@@ -63,7 +62,9 @@ results_df = pd.read_csv(BASE_DIR / "models" / "model_comparison.csv")
 X_test, y_test = pickle.load(open(BASE_DIR / "models" / "test_data.pkl", "rb"))
 df = pd.read_csv(BASE_DIR / "data" / "Customer_Churn_Datasheet.csv")
 report_path = BASE_DIR / "assets" / "customer_churn_report.html"   # adjust if needed
-
+confusion_matrices = json.load(open(BASE_DIR / "models" / "confusion_matrices.json"))
+business_costs = json.load(open(BASE_DIR / "models" / "business_costs.json"))
+lift_table = pd.read_json(BASE_DIR / "models" / "lift_table.json")
 
 # SIDEBAR
 def get_base64_image(path):
@@ -400,7 +401,7 @@ with tab3:
 
     total_cost = fp * cost_fp + fn * cost_fn
 
-    st.metric("Total Estimated Cost", f"${total_cost:,}")
+    st.metric("Total Estimated loss", f"${total_cost:,}")
 
     st.info("Reducing missed churn customers has highest financial impact")
 
@@ -494,6 +495,112 @@ with tab3:
 
     👉 Best model balances detection + accuracy of predictions
     """)
+
+    st.markdown("---")
+    st.subheader("🧩 Confusion Matrix Comparison")
+
+    cols = st.columns(2)
+
+    for idx, (model_name, cm) in enumerate(confusion_matrices.items()):
+
+        fig = go.Figure(data=go.Heatmap(
+            z=cm,
+            x=["Predicted No", "Predicted Yes"],
+            y=["Actual No", "Actual Yes"],
+            text=cm,
+            texttemplate="%{text}",
+            colorscale="Blues"
+        ))
+
+        fig.update_layout(
+            title=model_name,
+            height=350
+        )
+
+        with cols[idx % 2]:
+            st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown("---")
+    st.subheader("💰 Business Cost Comparison")
+
+    cost_df = pd.DataFrame({
+        "Model": business_costs.keys(),
+        "Total Loss ($)": business_costs.values()
+    })
+
+    cost_df = cost_df.sort_values(
+        by="Total Loss ($)",
+        ascending=True
+    )
+
+    fig = px.bar(
+        cost_df,
+        x="Total Loss ($)",
+        y="Model",
+        orientation="h",
+        text="Total Loss ($)",
+        title="Estimated Business Loss by Model"
+    )
+
+    fig.update_traces(textposition="outside")
+
+    st.plotly_chart(fig, use_container_width=True)
+    st.dataframe(cost_df, use_container_width=True)
+
+    st.markdown("---")
+    st.subheader("📈 Lift Chart Analysis")
+
+    fig = px.line(
+        lift_table,
+        x="decile",
+        y="lift",
+        markers=True,
+        title="Lift by Decile"
+    )
+
+    fig.add_hline(
+        y=1,
+        line_dash="dash"
+    )
+
+    fig.update_layout(
+        xaxis_title="Decile (1 = Highest Risk Customers)",
+        yaxis_title="Lift"
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    fig = px.line(
+        lift_table,
+        x="decile",
+        y="cum_lift",
+        markers=True,
+        title="Cumulative Lift Chart"
+    )
+
+    fig.add_hline(
+        y=1,
+        line_dash="dash"
+    )
+
+    fig.update_layout(
+        xaxis_title="Decile",
+        yaxis_title="Cumulative Lift"
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown("""
+        ### 💼 Business Interpretation
+
+        - Top deciles contain customers with highest churn probability
+        - A lift > 1 means the model performs better than random targeting
+        - Higher lift in early deciles indicates strong ranking capability
+        - Marketing teams can prioritize retention campaigns efficiently
+
+        👉 This directly improves campaign ROI and reduces retention costs.
+    """)
+
 # ---------------- TAB 4 ----------------
 with tab4:
     images = {
@@ -506,7 +613,12 @@ with tab4:
         "/assets/churn_distribution_pie.png": BASE_DIR / "assets" / "churn_distribution_pie.png",
         "/assets/contract_vs_churn.png": BASE_DIR / "assets" / "contract_vs_churn.png",
         "/assets/tenure_distribution.png": BASE_DIR / "assets" / "tenure_distribution.png",
-        "/assets/churn_distribution_payment_method.png": BASE_DIR / "assets" / "churn_distribution_payment_method.png"
+        "/assets/churn_distribution_payment_method.png": BASE_DIR / "assets" / "churn_distribution_payment_method.png",
+        "/assets/cost_by_model.png": BASE_DIR / "assets" / "cost_by_model.png",
+        "/assets/cumulative_lift_chart.png": BASE_DIR / "assets" / "cumulative_lift_chart.png",
+        "/assets/lift_chart_analysis_by_decile.png": BASE_DIR / "assets" / "lift_chart_analysis_by_decile.png",
+        "/assets/newplot.png": BASE_DIR / "assets" / "newplot.png",
+        "/assets/all_confusion_matrices.png": BASE_DIR / "assets" / "all_confusion_matrices.png"
     }
     st.subheader("📄 Full Report")
     
