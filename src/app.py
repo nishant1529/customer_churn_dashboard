@@ -14,7 +14,7 @@ import streamlit.components.v1 as components  # type: ignore
 
 # ---------------- CONFIG ----------------
 st.set_page_config(
-    page_title="Churn Intelligence",
+    page_title="Customer Churn Prediction",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -631,7 +631,10 @@ with tab4:
             html = f.read()
             for key, path in images.items():
                 img_base64 = get_base64_image(path)
-                html = html.replace(key, f"data:image/png;base64,{img_base64}")
+                if(key.endswith(".svg")):
+                    html = html.replace(key, f"data:image/svg+xml;base64,{img_base64}")
+                else:
+                    html = html.replace(key, f"data:image/png;base64,{img_base64}")
         components.html(html, height=1200, scrolling=True)
     else:
         st.error("Report not found")        
