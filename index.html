@@ -217,155 +217,100 @@
                         <li><strong>Service details:</strong> e.g., internet service, contract type</li>
                         <li><strong>Billing information:</strong> e.g., monthly charges, total charges</li>
                     </ul>
-
-                    <table border="1" cellspacing="0" cellpadding="6" style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
-                        <thead style="background-color: #2F5D9F; color: white;">
-                            <tr>
-                                <th>customerID</th>
-                                <th>gender</th>
-                                <th>SeniorCitizen</th>
-                                <th>Partner</th>
-                                <th>Dependents</th>
-                                <th>tenure</th>
-                                <th>PhoneService</th>
-                                <th>MultipleLines</th>
-                                <th>InternetService</th>
-                                <th>OnlineSecurity</th>
-                                <th>OnlineBackup</th>
-                                <th>DeviceProtection</th>
-                                <th>TechSupport</th>
-                                <th>StreamingTV</th>
-                                <th>StreamingMovies</th>
-                                <th>Contract</th>
-                                <th>PaperlessBilling</th>
-                                <th>PaymentMethod</th>
-                                <th>MonthlyCharges</th>
-                                <th>TotalCharges</th>
-                                <th>Churn</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>7590-VHVEG</td>
-                                <td>Female</td>
-                                <td>0</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>1</td>
-                                <td>No</td>
-                                <td>No phone service</td>
-                                <td>DSL</td>
-                                <td>No</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>Month-to-month</td>
-                                <td>Yes</td>
-                                <td>Electronic check</td>
-                                <td>29.85</td>
-                                <td>29.85</td>
-                                <td>No</td>
-                            </tr>
-                    
-                            <tr>
-                                <td>5575-GNVDE</td>
-                                <td>Male</td>
-                                <td>0</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>34</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>DSL</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>One year</td>
-                                <td>No</td>
-                                <td>Mailed check</td>
-                                <td>56.95</td>
-                                <td>1889.5</td>
-                                <td>No</td>
-                            </tr>
-                    
-                            <tr>
-                                <td>3668-QPYBK</td>
-                                <td>Male</td>
-                                <td>0</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>2</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>DSL</td>
-                                <td>Yes</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>Month-to-month</td>
-                                <td>Yes</td>
-                                <td>Mailed check</td>
-                                <td>53.85</td>
-                                <td>108.15</td>
-                                <td>Yes</td>
-                            </tr>
-                    
-                            <tr>
-                                <td>7795-CFOCW</td>
-                                <td>Male</td>
-                                <td>0</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>45</td>
-                                <td>No</td>
-                                <td>No phone service</td>
-                                <td>DSL</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>Yes</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>One year</td>
-                                <td>No</td>
-                                <td>Bank transfer (automatic)</td>
-                                <td>42.3</td>
-                                <td>1840.75</td>
-                                <td>No</td>
-                            </tr>
-                    
-                            <tr>
-                                <td>9237-HQITU</td>
-                                <td>Female</td>
-                                <td>0</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>2</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>Fiber optic</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>Month-to-month</td>
-                                <td>Yes</td>
-                                <td>Electronic check</td>
-                                <td>70.7</td>
-                                <td>151.65</td>
-                                <td>Yes</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div style="margin:1.1rem 0 0.2rem;">
+                      <figure style="margin:0 0 1.2rem; text-align:center;">
+                        <div style="overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--table-head-border); border-radius:4px; box-shadow:0 1px 4px rgba(0,0,0,0.25); padding:4px 4px 2px; background:var(--page-bg);">
+                        <table style="border-collapse:collapse; font-size:0.62rem; min-width:1000px; width:max-content; margin:0;">
+                            <thead>
+                                <tr style="background:var(--table-stripe); border-bottom:1px solid var(--table-head-border); text-align:right;">
+                                    <th style="padding:3px 6px;">customerID</th><th style="padding:3px 6px;">gender</th>
+                                    <th style="padding:3px 6px;">SeniorCitizen</th><th style="padding:3px 6px;">Partner</th>
+                                    <th style="padding:3px 6px;">Dependents</th><th style="padding:3px 6px;">tenure</th>
+                                    <th style="padding:3px 6px;">PhoneService</th><th style="padding:3px 6px;">MultipleLines</th>
+                                    <th style="padding:3px 6px;">InternetService</th><th style="padding:3px 6px;">OnlineSecurity</th>
+                                    <th style="padding:3px 6px;">OnlineBackup</th><th style="padding:3px 6px;">DeviceProtection</th>
+                                    <th style="padding:3px 6px;">TechSupport</th><th style="padding:3px 6px;">StreamingTV</th>
+                                    <th style="padding:3px 6px;">StreamingMovies</th><th style="padding:3px 6px;">Contract</th>
+                                    <th style="padding:3px 6px;">PaperlessBilling</th><th style="padding:3px 6px;">PaymentMethod</th>
+                                    <th style="padding:3px 6px;">MonthlyCharges</th><th style="padding:3px 6px;">TotalCharges</th>
+                                    <th style="padding:3px 6px;">Churn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:3px 6px;">7590-VHVEG</td> <td style="padding:3px 6px;">Female</td>
+                                    <td style="padding:3px 6px;">0</td> <td style="padding:3px 6px;">Yes</td>
+                                    <td style="padding:3px 6px;">No</td> <td style="padding:3px 6px;">1</td>
+                                    <td style="padding:3px 6px;">No</td> <td style="padding:3px 6px;">No phone service</td>
+                                    <td style="padding:3px 6px;">DSL</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">Month-to-month</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">Electronic check</td>
+                                    <td style="padding:3px 6px;">29.85</td><td style="padding:3px 6px;">29.85</td>
+                                    <td style="padding:3px 6px;">No</td>
+                                </tr>
+                        
+                                <tr>
+                                    <td style="padding:3px 6px;">5575-GNVDE</td><td style="padding:3px 6px;">Male</td>
+                                    <td style="padding:3px 6px;">0</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">34</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">DSL</td><td style="padding:3px 6px;">Yes</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">Yes</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">One year</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">Mailed check</td>
+                                    <td style="padding:3px 6px;">56.95</td><td style="padding:3px 6px;">1889.5</td>
+                                    <td style="padding:3px 6px;">No</td>
+                                </tr>
+                        
+                                <tr>
+                                    <td style="padding:3px 6px;">3668-QPYBK</td><td style="padding:3px 6px;">Male</td>
+                                    <td style="padding:3px 6px;">0</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">2</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">DSL</td><td style="padding:3px 6px;">Yes</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">Month-to-month</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">Mailed check</td>
+                                    <td style="padding:3px 6px;">53.85</td><td style="padding:3px 6px;">108.15</td>
+                                    <td style="padding:3px 6px;">Yes</td>
+                                </tr>
+                        
+                                <tr>
+                                    <td style="padding:3px 6px;">7795-CFOCW</td><td style="padding:3px 6px;">Male</td>
+                                    <td style="padding:3px 6px;">0</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">45</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">No phone service</td>
+                                    <td style="padding:3px 6px;">DSL</td><td style="padding:3px 6px;">Yes</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">Yes</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">One year</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">Bank transfer (automatic)</td>
+                                    <td style="padding:3px 6px;">42.3</td><td style="padding:3px 6px;">1840.75</td>
+                                    <td style="padding:3px 6px;">No</td>
+                                </tr>
+                        
+                                <tr>
+                                    <td style="padding:3px 6px;">9237-HQITU</td><td style="padding:3px 6px;">Female</td>
+                                    <td style="padding:3px 6px;">0</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">2</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">Fiber optic</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">No</td>
+                                    <td style="padding:3px 6px;">No</td><td style="padding:3px 6px;">Month-to-month</td>
+                                    <td style="padding:3px 6px;">Yes</td><td style="padding:3px 6px;">Electronic check</td>
+                                    <td style="padding:3px 6px;">70.7</td><td style="padding:3px 6px;">151.65</td>
+                                    <td style="padding:3px 6px;">Yes</td>
+                                </tr>
+                            </tbody>
+                         </table>
+                       </div>
+                      </figure>
+                    </div>
                 </div>
                 
                 <!-- Target & Metric -->
