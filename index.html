@@ -3,238 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Churn Prediction</title>
+    <meta name="color-scheme" content="dark light" />
+    <title>Capestone Project Report: Customer Churn Prediction</title>
+    <!-- Favicon (microphone emoji) -->
+    <link rel="icon" type="image/svg+xml" sizes="64x64" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50%' x='50%' dominant-baseline='middle' text-anchor='middle' font-size='50'%3E🎙️%3C/text%3E%3C/svg%3E" />
+    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50%' x='50%' dominant-baseline='middle' text-anchor='middle' font-size='50'%3E🎙️%3C/text%3E%3C/svg%3E" />
+    <!-- Descriptive meta (no visible content change) -->
+    <meta name="description" content=" Customer Churn Prediction – Machine learning capstone: data exploration, feature handling, and tree-based models (Decision Tree, Random Forest, Histogram Gradient Boosting)." />
+    <meta name="theme-color" content="#282a36" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f2f3f5" media="(prefers-color-scheme: light)">
+    <link rel="canonical" href="https://nishant1529.github.io/customer_churn_dashboard/" />
+    <!-- Open Graph / Twitter (silent enhancements) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Customer Churn Prediction" />
+    <meta property="og:title" content="Customer Churn Prediction – Capstone Report" />
+    <meta property="og:description" content="Tree-based ML pipeline halves RMSE for podcast listening time prediction (27.09 → 13.11)." />
+    <meta property="og:image" content="https://nishant1529.github.io/customer_churn_dashboard/assets/model_comparison.png" />
+    <meta property="og:url" content="https://nishant1529.github.io/customer_churn_dashboard/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Customer Churn Prediction – Capstone Report" />
+    <meta name="twitter:description" content="Customer Churn Prediction Capstone: Predict customer churning using Random Forest." />
+    <meta name="twitter:image" content="https://nishant1529.github.io/customer_churn_dashboard/assets/model_comparison.png" />
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Customer Churn Prediction – Capstone Report",
+        "description": "Predict the customer churning using various models.",
+        "url": "https://nishant1529.github.io/customer_churn_dashboard/",
+        "creator": {"@type": "Person", "name": "Nishant Dubey"},
+        "inLanguage": "en",
+        "isBasedOn": {"@type": "Dataset", "name": "Customer Churn Prediction"}
+      }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 40px;
-            text-align: center;
-        }
-        
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-        
-        main {
-            padding: 40px;
-        }
-        
-        section {
-            margin-bottom: 40px;
-        }
-        
-        h2 {
-            color: #667eea;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        h3 {
-            color: #764ba2;
-            font-size: 1.3em;
-            margin-top: 20px;
-            margin-bottom: 15px;
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-            color: #555;
-        }
-        
-        ul, ol {
-            margin-left: 30px;
-            margin-bottom: 15px;
-        }
-        
-        li {
-            margin-bottom: 8px;
-            color: #555;
-        }
-        
-        .highlight {
-            background: #f0f4ff;
-            padding: 20px;
-            border-left: 4px solid #667eea;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        
-        .key-finding {
-            background: #f9f9f9;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border-left: 4px solid #764ba2;
-        }
-        
-        .subsection {
-            margin-left: 20px;
-            margin-bottom: 20px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        th {
-            background-color: #667eea;
-            color: white;
-        }
-        
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .metric-item {
-            display: inline-block;
-            width: 45%;
-            margin: 10px 2.5%;
-            padding: 15px;
-            background: #f0f4ff;
-            border-radius: 5px;
-            border-left: 3px solid #667eea;
-        }
-        
-        .personal-background {
-            background: #f0f9ff;
-            padding: 25px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #0ea5e9;
-            italic: true;
-        }
-        
-        .personal-background p {
-            color: #0c4a6e;
-            font-style: italic;
-        }
-        
-        footer {
-            background: #f8f9fa;
-            padding: 20px 40px;
-            text-align: center;
-            color: #666;
-            border-top: 1px solid #e0e0e0;
-            font-size: 0.95em;
-        }
-        
-        .recommendation-box {
-            background: #ecfdf5;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #10b981;
-        }
-        
-        .recommendation-box h4 {
-            color: #047857;
-            margin-bottom: 10px;
-        }
-        
-        .recommendation-box ul {
-            margin-left: 20px;
-        }
-        
-        .recommendation-box li {
-            color: #065f46;
-        }
-    </style>
+    /* Theme variables: Dracula (default) + Light (original) */
+  :root, :root[data-theme='dark'] {
+      --page-max: 760px;
+      --bg: #282a36;              /* page background */
+      --page-bg: #1e1f29;          /* content card background */
+      --page-border: #44475a;
+      --text: #f8f8f2;             /* primary text */
+      --muted: #6272a4;            /* secondary text */
+      --rule: #44475a;             /* separators */
+      --accent: #bd93f9;           /* accent (purple) */
+      --link: #bd93f9;
+      --link-hover: #ff79c6;
+      --code-bg: #303342;
+      --code-border: #44475a;
+      --table-stripe: #262736;
+      --table-hover: #303241;
+      --table-head-border: #44475a;
+      --table-last-border: #44475a;
+      --btn-bg: #44475a;
+      --btn-text: #f8f8f2;
+      --btn-bg-alt: #e2e3e7;
+      --serif: Georgia, "Times New Roman", Times, serif;
+      --sans: "Helvetica Neue", Arial, sans-serif;
+    }
+    :root[data-theme='light'] {
+      --page-max: 760px;           
+      --text: #1f1f22;
+      --muted: #5a5a63;
+      --rule: #cfcfd4;
+      --accent: #20242b;           
+      --bg: #f2f3f5;
+      --page-bg: #ffffff;
+      --page-border: #e2e3e7;
+      --link: #20242b;
+      --link-hover: #000000;
+      --code-bg: #f6f6f9;
+      --code-border: #e2e3e7;
+      --table-stripe: #fafbfc;
+      --table-hover: #f0f4ff;
+      --table-head-border: #bbbbbb;
+      --table-last-border: #d4d4d9;
+      --btn-bg: #20242b;
+      --btn-text: #ffffff;
+      --btn-bg-alt: #44475a; /* not really used in light */
+      --serif: Georgia, "Times New Roman", Times, serif;
+      --sans: "Helvetica Neue", Arial, sans-serif;
+    }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; transition: background .35s ease, color .3s ease; }
+    body { font-family: var(--serif); font-size:16px; line-height:1.54; }
+    .page {
+      max-width: var(--page-max);
+      margin: 2.4rem auto 3.2rem;
+      background:var(--page-bg);
+      padding: 2.6rem 3rem 2.8rem;
+      border: 1px solid var(--page-border);
+      box-shadow: 0 3px 18px rgba(0,0,0,0.25), 0 1px 3px rgba(0,0,0,0.4);
+      transition: background .35s ease, border-color .35s ease, box-shadow .35s ease;
+    }
+
+    /* Title block */
+    header.paper-header { text-align:center; margin-bottom:2.1rem; padding-bottom:1.4rem; border-bottom:1px solid var(--rule); }
+    .paper-title { font-size:2.05rem; font-weight:700; letter-spacing:.5px; margin:.15rem 0 .55rem; line-height:1.18; }
+    .paper-subtitle { font-family:var(--sans); font-variant-caps:small-caps; color:var(--muted); letter-spacing:.7px; margin:.25rem 0; font-size:0.78rem; font-weight:500; }
+
+    /* Section numbering via CSS counters */
+    main { counter-reset: section; }
+    main section { margin:2.1rem 0 2.3rem; }
+    h2.section-title { position:relative; margin:0 0 .85rem; font-size:1.18rem; font-weight:700; font-family:var(--sans); letter-spacing:.6px; text-transform:uppercase; padding-left:2.4rem; line-height:1.25; }
+  h2.section-title:before { counter-increment:section; content: counter(section) "."; position:absolute; left:0; top:0; font-weight:600; color:var(--accent); }
+  h2.section-title:after { content:""; position:absolute; left:0; bottom:-6px; width:100%; height:1px; background:linear-gradient(90deg,var(--rule),rgba(255,255,255,0)); }
+
+    /* Paragraph styling: academic feel with first-line indent except after headings or lists */
+  p { margin:.55rem 0 .55rem; text-align:justify; hyphens:auto; line-height:1.55; text-indent:0; }
+    p strong { font-weight:600; }
+    ul { margin:.5rem 0 .9rem 2.1rem; padding:0; }
+    ul li { margin:.35rem 0; padding:0; }
+  ul.next-steps { list-style:disc; margin:.5rem 0 1.1rem 1.6rem; }
+  ul.next-steps li { margin:.28rem 0; }
+  code { font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size:0.85em; background:var(--code-bg); padding:2px 6px; border:1px solid var(--code-border); border-radius:4px; transition: background .35s ease, color .35s ease; }
+
+    /* Table: booktabs-inspired */
+  table { border-collapse:collapse; margin:.4rem 0 1.2rem; width:100%; }
+  table thead tr { border-bottom:2px solid var(--table-head-border); }
+  table tbody tr:last-child { border-top:1px solid var(--table-last-border); }
+  table th, table td { font-size:0.83rem; line-height:1.35; }
+  table th { font-weight:600; font-family:var(--sans); }
+  table td, table th { padding:6px 7px; }
+  table tbody tr:nth-child(even) { background:var(--table-stripe); }
+  table tbody tr:hover { background:var(--table-hover); }
+
+    /* Figures & captions */
+    figure, .table-wrap { display:block; margin:1.1rem auto; text-align:center; }
+  figcaption, .tbl-caption { font-size:.78rem; color:var(--muted); margin-top:.45rem; font-style:italic; letter-spacing:.2px; }
+
+    /* Horizontal rule / footer separator */
+    .rule { border-top:1px solid var(--rule); margin:2.6rem 0 1.4rem; }
+  .paper-footer { text-align:center; font-size:.72rem; color:var(--muted); font-family:var(--sans); letter-spacing:.3px; }
+  .paper-footer .meta { margin:.2rem 0; }
+  .paper-footer a { color:var(--link); text-decoration:none; border-bottom:1px dotted var(--link); }
+  .paper-footer a:hover { color:var(--link-hover); border-bottom:1px solid var(--link-hover); }
+  a { color:var(--link); transition: color .25s ease; }
+  a:hover { color:var(--link-hover); }
+  a:focus { outline:2px solid var(--accent); outline-offset:2px; }
+  #theme-toggle { position:fixed; top:10px; right:10px; background:var(--btn-bg); color:var(--btn-text); border:1px solid var(--rule); font-size:.65rem; padding:6px 9px; cursor:pointer; border-radius:4px; font-family:var(--sans); letter-spacing:.5px; text-transform:uppercase; opacity:0.9; display:inline-flex; align-items:center; justify-content:center; line-height:1; }
+  #theme-toggle:hover { opacity:1; }
+  #theme-toggle:focus { outline:2px solid var(--accent); outline-offset:2px; }
+  #notebook-link { position:fixed; top:10px; right:88px; background:var(--btn-bg); color:var(--btn-text); border:1px solid var(--rule); font-size:.65rem; padding:6px 9px; cursor:pointer; border-radius:4px; font-family:var(--sans); letter-spacing:.5px; text-transform:uppercase; opacity:0.9; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; line-height:1; }
+  #notebook-link:hover { opacity:1; }
+  #notebook-link:focus { outline:2px solid var(--accent); outline-offset:2px; }
+
+    /* Print adjustments */
+    @media print {
+      body { background:#fff; }
+      .page { box-shadow:none; border:none; padding:1.6cm 1.8cm 1.8cm; margin:0; }
+      h2.section-title { page-break-after:avoid; }
+      table { page-break-inside:auto; }
+      tr { page-break-inside:avoid; page-break-after:auto; }
+      p { orphans:3; widows:3; }
+      a[href]:after { content:""; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
+    <button id="theme-toggle" type="button" aria-label="Toggle colour theme">LIGHT</button>
+    <div class="page">
+        <header class="paper-header">
+            <img src="img/imperial_logo.svg" alt="Imperial Business School Logo" style="height:60px; margin-bottom:12px;" />
             <h1>Customer Churn Prediction</h1>
-            <p style="text-align: right;">Analysis & Business Recommendations using Machine Learning </p>
-            <p style="text-align: right; text-color: blue;"><span>Prepared by Nishant Dubey</span></p>
+            <h1 class="paper-title">Customer Churn Prediction</h1>
+            <div class="paper-subtitle">Capstone Executive Summary and Report</div>
+            <div class="paper-subtitle">by Nishant Dubey</div>
         </header>
         
         <main>
             <!-- Executive Summary -->
-            <section>
-                <h2>Executive Summary</h2>
-                
+            <section id="executive-summary">
+                <h2 class="section-title">Executive Summary</h2>
                 <p>Customer churn directly impacts revenue and long-term profitability. This project develops a machine learning-based solution to predict customer churn and enable businesses to work on proactive retention strategies.</p>
-                
                 <p>Using a dataset of approximately 12,000 customers, multiple classification models were evaluated, including Logistic Regression, Decision Tree, and Random Forest. A Scikit-learn pipeline was implemented to ensure consistent preprocessing and avoid data leakage. The Random Forest model, optimized using GridSearchCV, demonstrated the best performance.</p>
-                
                 <p>To align with business priorities, the classification threshold was adjusted from 0.5 to 0.3, improving recall and enabling better identification of at-risk customers. Key drivers of churn include contract type, tenure, and payment behaviour.</p>
-                
                 <p>The results highlight actionable insights that can help businesses reduce churn through targeted interventions such as promoting long-term contracts and improving onboarding experiences.</p>
             </section>
             
             <!-- Introduction -->
-            <section>
-                <h2>Introduction</h2>
-                
+            <section id="introduction">
+                <h2 class="section-title">Introduction</h2>
                 <p>Customer retention is a critical factor for sustainable business growth, particularly in industries with recurring revenue models such as telecommunications and subscription services. Acquiring new customers is often significantly more expensive than retaining existing ones, which makes churn prediction a high-impact business problem.</p>
-                
                 <p>This analysis aims to predict customer churn using a data-driven approach. The problem is well-suited for machine learning because:</p>
-                
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>Large volumes of customer data are available</li>
                     <li>Patterns in behaviour can indicate future churn</li>
                     <li>Predictive models enable proactive business strategies</li>
                 </ul>
-                
                 <p>By leveraging machine learning, organizations can shift from reactive to predictive decision-making, ultimately improving customer retention and profitability.</p>
-                
                 <div class="personal-background">
                     <p><strong>Personal Background:</strong> I have worked in the e-commerce industry for the last 16-17 years, collaborating with many Fortune 500 retailers and e-commerce companies including Cardinal Health, Home Depot, Hasbro Toyshop, and M&S. I developed numerous utilities to collect data and dashboards that enable businesses to analyze various customer-related information. Customer retention has always been an interesting focus area, as we developed many features to provide the best experience to customers and retain them. I believe this is the most suitable use case for me to work on this problem and leverage it for future customers.</p>
                 </div>
             </section>
             
             <!-- Methods -->
-            <section>
-                <h2>Methods</h2>
-                
+            <section id="methodology">
+                <h2 class="section-title">Methods</h2>
                 <!-- Data Sources -->
                 <h3>Data Sources</h3>
                 <p>The dataset is constructed by merging two similar datasets with consistent column structures and value formats:</p>
                 
                 <div class="highlight">
-                    <ul>
+                    <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                         <li><strong>Total Records:</strong> 12,023</li>
                         <li><strong>Total Features:</strong> 21</li>
                         <li><strong>Feature Types:</strong>
@@ -257,7 +226,7 @@
                 <!-- Data Cleaning and Preprocessing -->
                 <h3>Data Cleaning and Preprocessing</h3>
                 <p>Several preprocessing steps were applied:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>Removed customerID (no predictive value, adds noise)</li>
                     <li>Converted TotalCharges and MonthlyCharges to numeric format</li>
                     <li><strong>Encoded categorical variables:</strong>
@@ -279,14 +248,14 @@
                 <!-- Modelling Approach -->
                 <h3>Modelling Approach</h3>
                 <p>A Scikit-learn Pipeline was implemented combining:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>ColumnTransformer (for preprocessing)</li>
                     <li>Machine learning model (classifier)</li>
                 </ul>
                 <img src="assets/pipeline.png" alt="ML Pipeline Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 
                 <p>The following models were evaluated:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>Logistic Regression</li>
                     <li>Decision Tree</li>
                     <li>Random Forest</li>
@@ -294,7 +263,7 @@
                 </ul>
                 <img src="assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 <p>Hyperparameter tuning was performed using GridSearchCV, optimizing parameters such as:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>Number of estimators</li>
                     <li>Maximum tree depth</li>
                     <li>Minimum samples split</li>
@@ -304,7 +273,7 @@
                 <h3>Threshold Optimization</h3>
                 <p>Instead of using the default classification threshold (0.5), a threshold of 0.3 was selected:</p>
                 <div class="key-finding">
-                    <ul>
+                    <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                         <li>False negatives (missing churners) are more costly than false positives</li>
                         <li>Lower threshold improves recall, capturing more at-risk customers</li>
                     </ul>
@@ -313,7 +282,7 @@
                 <!-- Evaluation Metrics -->
                 <h3>Evaluation Metrics</h3>
                 <p>The following metrics were used:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>Accuracy</li>
                     <li>Precision</li>
                     <li>Recall</li>
@@ -324,13 +293,13 @@
             </section>
             
             <!-- Results -->
-            <section>
-                <h2>Results</h2>
+            <section id="modelling-results">
+                <h2 class="section-title">Results</h2>
                 
                 <!-- Descriptive Analysis -->
                 <h3>Descriptive Analysis</h3>
                 <p>Exploratory data analysis revealed:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>Approximately 35–37% of customers churned, indicating class imbalance</li>
                     <li>Customers with short tenure are more likely to churn</li>
                     <li>Month-to-month contracts show significantly higher churn rates</li>
@@ -343,7 +312,7 @@
                 <img src="assets/model_comparison.png" alt="ML Model Comparison Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                 <div class="highlight">
                     <h4>Key Observations:</h4>
-                    <ul>
+                    <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                         <li>ROC-AUC indicates strong classification capability
                             <img src="assets/roc_curve.png" alt="ML ROC Curve Diagram" style="width: 100%; max-width: 600px; margin: 20px 0;">
                         </li>
@@ -357,7 +326,7 @@
                 <!-- Feature Importance -->
                 <h3>Feature Importance</h3>
                 <p>The most influential features include:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li>Contract type</li>
                     <li>Tenure</li>
                     <li>Monthly charges</li>
@@ -367,7 +336,7 @@
                 <!-- Interpretation of Results -->
                 <h3>Interpretation of Results</h3>
                 <p>The results suggest that churn is strongly influenced by:</p>
-                <ul>
+                <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                     <li><strong>Customer commitment level</strong> (contract type)</li>
                     <li><strong>Customer lifecycle stage</strong> (tenure)</li>
                     <li><strong>Pricing sensitivity</strong> (monthly charges)</li>
@@ -409,7 +378,7 @@
                 
                 <div class="key-finding">
                     <h4>Confusion Matrix</h4>
-                    <ul>
+                    <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                         <li><strong>True Positives (top-right):</strong> Correctly identified churners</li>
                         <li><strong>False Negatives (top-left):</strong> Missed churners (critical)</li>
                         <li><strong>False Positives (bottom-right):</strong> Safe customers flagged as churn</li>
@@ -434,14 +403,12 @@
             </section>
             
             <!-- Conclusion -->
-            <section>
-                <h2>Conclusion</h2>
-                
+            <section id="conclusion">
+                <h2 class="section-title">Conclusion</h2>
                 <p>This project demonstrates that machine learning can effectively predict customer churn and provide actionable business insights.</p>
-                
                 <div class="highlight">
                     <h4>Key Findings:</h4>
-                    <ul>
+                    <ul style="margin:0.6rem 0 1.1rem 1.6rem;">
                         <li>Random Forest outperforms simpler models (considering both recall and accuracy)</li>
                         <li>Early-stage customers are at highest risk</li>
                         <li>Contract type is the strongest predictor of churn</li>
@@ -450,9 +417,8 @@
             </section>
             
             <!-- Recommendations -->
-            <section>
-                <h2>Recommendations</h2>
-                
+            <section id="conclusion">
+                <h2 class="section-title">Recommendations</h2>
                 <p>Based on the analysis, the following actions are recommended to reduce customer churn:</p>
                 
                 <div class="recommendation-box">
@@ -480,11 +446,31 @@
                     <p>Business can test various retention strategies (e.g. promotional offers, service improvements, campaigns) on identified high-risk segments to identify the most effective interventions.</p>
                 </div>
             </section>
+            <div class="rule"></div>
+            <div class="paper-footer">
+                <div class="meta"><strong>Customer Churn Prediction</strong> | Capstone Report</div>
+                <div class="meta">Author: <a href="https://www.linkedin.com/in/nishantdubey/" target="_blank" rel="noopener noreferrer">Nishant Dubey</a> </div>
+                <div class="meta">Version 1.0 &middot; Generated on <span id="build-date"></span></div>
+                <div class="meta">Repository: <a href="https://github.com/nishant1529/customer_churn_dashboard" target="_blank" rel="noopener noreferrer">GitHub/Predict-Podcast-Listening-Time</a></div>
+            </div>
+            <script>
+                document.getElementById('build-date').textContent = new Date().toISOString().slice(0,10);
+                (function(){
+                  const html = document.documentElement;
+                    const btn = document.getElementById('theme-toggle');
+                    function update(){
+                      const t = html.getAttribute('data-theme');
+                      btn.textContent = t === 'dark' ? 'LIGHT' : 'DARK';
+                    }
+                    btn.addEventListener('click', ()=>{
+                      const current = html.getAttribute('data-theme');
+                      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+                      update();
+                    });
+                    update();
+                })();
+              </script>
         </main>
-        
-        <footer>
-            <p>&copy; Nishant Dubey</p>
-        </footer>
     </div>
 </body>
 </html>
