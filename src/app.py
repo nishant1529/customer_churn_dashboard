@@ -77,7 +77,7 @@ df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
 df["TotalCharges"].fillna(df["TotalCharges"].median(), inplace=True)
 
 # ---------------- HEADER ----------------
-st.title("🚀 Churn Intelligence")
+st.title("🚀 Customer Churn Prediction")
 st.markdown("### 📊 Customer Retention Analytics Platform")
 
 st.markdown("""
